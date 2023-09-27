@@ -1,3 +1,7 @@
+function Round(num) {
+  return Math.round(num * 100) / 100;
+}
+
 $(document).ready( () => {
 
   let totalPrice = 0;
@@ -12,9 +16,9 @@ $(document).ready( () => {
     let removeButton = $("<button class='remove-item-button'>Remove</button>");
     let inputQuantity = $("<input class='change-quantity' type='number'  prev='1' value='1' min='1'>");
 
-    if (itemName && itemPrice && Number(itemPrice)) {
+    if (itemName && itemPrice && parseFloat(itemPrice)) {
 
-      totalPrice += Number(itemPrice);
+      totalPrice += Round(parseFloat(itemPrice));
 
       // append to list
       let newItem = $("<li id=" + "'list-item-" + String(currentId) + "'></li>");
@@ -24,7 +28,7 @@ $(document).ready( () => {
 
       newItem.append($("<span class='shopping-list-item-box'>" + itemName + "</span>"));
 
-      newItem.append($("<span class='shopping-list-item-box'>$" + itemPrice + "</span>"));
+      newItem.append($("<span class='shopping-list-item-box'>$" + parseFloat(itemPrice).toFixed(2) + "</span>"));
 
       newItem.append($("<span>QTY</span>"));
       newItem.append(newInputQuantity);
@@ -35,14 +39,14 @@ $(document).ready( () => {
 
         if (difference < 0) {
           // quantity down
-          totalPrice -= Number(itemPrice);
+          totalPrice -= Round(parseFloat(itemPrice));
         } else {
           // quantity up
-          totalPrice += Number(itemPrice);
+          totalPrice += Round(parseFloat(itemPrice));
         }
 
         // update total costs
-        $(".total-price").text("$" + totalPrice);
+        $(".total-price").text("$" + totalPrice.toFixed(2));
 
         // set prev attribute to new value
         newInputQuantity.attr("prev", newInputQuantity.val());
@@ -52,9 +56,9 @@ $(document).ready( () => {
       newItem.append(newRemoveButton);
 
       newRemoveButton.on("click", () => {
-        totalPrice -= (itemPrice * newInputQuantity.val());
+        totalPrice -= (Round(parseFloat(itemPrice)) * newInputQuantity.val());
 
-        $(".total-price").text("$" + totalPrice);
+        $(".total-price").text("$" + totalPrice.toFixed(2));
 
         $(newRemoveButton).parent().remove();
 
@@ -67,7 +71,7 @@ $(document).ready( () => {
       $('.item-price').val("");
 
       // update total costs
-      $(".total-price").text("$" + totalPrice);
+      $(".total-price").text("$" + totalPrice.toFixed(2));
 
       // update currentId
       currentId++;
