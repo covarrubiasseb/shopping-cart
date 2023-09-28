@@ -13,8 +13,10 @@ $(document).ready( () => {
     let itemName = $('.item-name').val();
     let itemPrice = $('.item-price').val();
 
-    let removeButton = $("<button class='col-xs-1 remove-item-button'>Remove</button>");
-    let inputQuantity = $("<div class='col-xs-3'><strong class='qty-box'>QTY</strong><input class='change-quantity' type='number'  prev='1' value='1' min='1'></div>");
+    let removeButton = $("<button class='remove-item-button'>Remove</button>");
+    let inputQuantity = $("<div class='col-xs-4'><strong class='qty-box'>QTY</strong></div>");
+    let inputQuantityForm = $("<input class='change-quantity' type='number'  prev='1' value='1' min='1'>");
+    let itemTotal = $("<div class='col-xs-1 item-total'>$--.--</div>");
 
     if (itemName && itemPrice && parseFloat(itemPrice)) {
 
@@ -25,16 +27,23 @@ $(document).ready( () => {
 
       let newRemoveButton = removeButton.clone();
       let newInputQuantity = inputQuantity.clone();
+      let newInputQuantityForm = inputQuantityForm.clone();
+      let newItemTotal = itemTotal.clone();
 
       newItem.append($("<div class='col-xs-3'>" + itemName + "</div>"));
 
       newItem.append($("<div class='col-xs-3'>$" + parseFloat(itemPrice).toFixed(2) + "</div>"));
 
+      newInputQuantity.append(newInputQuantityForm);
+
       newItem.append(newInputQuantity);
 
-      newInputQuantity.on("change", () => {
+      newItem.append(newItemTotal);
 
-        let difference = newInputQuantity.val() - $(newInputQuantity).attr("prev");
+      newInputQuantityForm.on("change", () => {
+
+        let difference = newInputQuantityForm.val() - newInputQuantityForm.attr("prev");
+        console.log(difference)
 
         if (difference < 0) {
           // quantity down
@@ -44,22 +53,24 @@ $(document).ready( () => {
           totalPrice += Round(parseFloat(itemPrice));
         }
 
+        // update item total costs
+        newItemTotal.text("$--.--");
         // update total costs
         $(".total-price").text("$" + totalPrice.toFixed(2));
 
         // set prev attribute to new value
-        newInputQuantity.attr("prev", newInputQuantity.val());
+        newInputQuantityForm.attr("prev", newInputQuantityForm.val());
 
       });
 
-      newItem.append(newRemoveButton);
+      newInputQuantity.append(newRemoveButton);
 
       newRemoveButton.on("click", () => {
-        totalPrice -= (Round(parseFloat(itemPrice)) * newInputQuantity.val());
+        totalPrice -= (Round(parseFloat(itemPrice)) * newInputQuantityForm.val());
 
         $(".total-price").text("$" + totalPrice.toFixed(2));
 
-        $(newRemoveButton).parent().remove();
+        $(newRemoveButton).parent().parent().remove();
 
       });
 
