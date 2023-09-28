@@ -1,5 +1,7 @@
-.shopping-list-item-box {
-  border: 1px solid black;
-  padding: 2px;
-  margin-right: 2px;
+.qty-box {
+  padding-right: 1px;
+}
+
+.cart-item {
+  margin-bottom: 2px;
 }

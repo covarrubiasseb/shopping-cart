@@ -13,24 +13,23 @@ $(document).ready( () => {
     let itemName = $('.item-name').val();
     let itemPrice = $('.item-price').val();
 
-    let removeButton = $("<button class='remove-item-button'>Remove</button>");
-    let inputQuantity = $("<input class='change-quantity' type='number'  prev='1' value='1' min='1'>");
+    let removeButton = $("<button class='col-xs-1 remove-item-button'>Remove</button>");
+    let inputQuantity = $("<div class='col-xs-3'><strong class='qty-box'>QTY</strong><input class='change-quantity' type='number'  prev='1' value='1' min='1'></div>");
 
     if (itemName && itemPrice && parseFloat(itemPrice)) {
 
       totalPrice += Round(parseFloat(itemPrice));
 
       // append to list
-      let newItem = $("<li id=" + "'list-item-" + String(currentId) + "'></li>");
+      let newItem = $("<div class='row cart-item' id=" + "'list-item-" + String(currentId) + "'></li>");
 
       let newRemoveButton = removeButton.clone();
       let newInputQuantity = inputQuantity.clone();
 
-      newItem.append($("<span class='shopping-list-item-box'>" + itemName + "</span>"));
+      newItem.append($("<div class='col-xs-3'>" + itemName + "</div>"));
 
-      newItem.append($("<span class='shopping-list-item-box'>$" + parseFloat(itemPrice).toFixed(2) + "</span>"));
+      newItem.append($("<div class='col-xs-3'>$" + parseFloat(itemPrice).toFixed(2) + "</div>"));
 
-      newItem.append($("<span>QTY</span>"));
       newItem.append(newInputQuantity);
 
       newInputQuantity.on("change", () => {
